@@ -1,20 +1,65 @@
-/*Vibrate animation */
-.oe-animate-vibrate:hover{
-    animation-name: oe-vibrate;
+
+.oe-animated-btn {
     animation-duration: 1s;
     animation-iteration-count: infinite;
 }
 
-.oe-animate-vibrate--auto {
+/* Vibrate animation */
+.oe-animate-vibrate--auto, .oe-animate-vibrate:hover{
     animation-name: oe-vibrate;
-    animation-duration: 1s;
-    animation-iteration-count: infinite;
 }
 
 @keyframes oe-vibrate {
-    0% { transform: translate(0); }
+    0%, 100% { transform: translate(0); }
     20% { transform: translate(-2px,2px); }
     40% { transform: translate(-2px,-2px) }
     60% { transform: translate(2px,2px); }
     80% { transform: translate(2px,-2px); }
+}
+
+/*@keyframes oe-vibrate2 {*/
+/*    0%, 100% { transform: translate(0); }*/
+/*    20% { transform: translate(2px,-2px); }*/
+/*    40% { transform: translate(2px,2px) }*/
+/*    60% { transform: translate(-2px,2px); }*/
+/*    80% { transform: translate(-2px,-2px); }*/
+/*}*/
+
+/* Shake animation horizontal */
+.oe-animate-shake-horizontal--auto, .oe-animate-shake-horizontal:hover{
+    animation-name: oe-shake-horizontal;
+}
+
+@keyframes oe-shake-horizontal {
+    0%, 100% { transform: translateX(0); }
+    10%, 30%, 50%, 70% { transform: translateX(-10px); }
+    20%, 40%, 60% { transform: translateX(10px); }
+    80% { transform: translateX(8px); }
+    90% { transform: translateX(-8px); }
+}
+
+/* Shake animation vertical */
+.oe-animate-shake-vertical--auto, .oe-animate-shake-vertical:hover{
+    animation-name: oe-shake-vertical;
+}
+
+@keyframes oe-shake-vertical {
+    0%, 100% { transform: translateX(0); }
+    10%, 30%, 50%, 70% { transform: translateY(-8px); }
+    20%, 40%, 60% { transform: translateY(8px); }
+    80% { transform: translateY(6.4px); }
+    90% { transform: translateY(-6.4px); }
+}
+
+/* Shake animation left right */
+.oe-animate-shake-lr--auto, .oe-animate-shake-lr:hover{
+    animation-name: oe-shake-left-right;
+}
+
+@keyframes oe-shake-left-right {
+    0%, 100% { transform: rotate(0deg); transform-origin: 50% 50%; }
+    10%, 90% { transform: rotate(8deg); }
+    20%, 40%, 60% { transform: rotate(-10deg); }
+    30%, 50%, 70% { transform: rotate(10deg); }
+    80% { transform: rotate(-8deg); }
 }

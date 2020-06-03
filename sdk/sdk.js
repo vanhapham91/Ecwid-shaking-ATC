@@ -5,21 +5,38 @@
 // FAKE DATA
 let shakingAddToCartConfig = {
     enabled: true,
-    animation: 'vibrate', // animation list: vibrate, wobble, tada
-    durationTime: 1, // duration of the animation
-    delayTime: 0, // for type Automatic only  - between each animation
-    type: 'automatic' // or hover
+    animation: 'shake-lr', // animation list: vibrate, shake-horizontal, shake-vertical, shake-lr
+    durationTime: null, // duration of the animation
+    delayTime: null, // for type Automatic only  - between each animation
+    type: 'hover' // or hover
 };
-shakingAddToCartConfig.enabled = true;
+
+const {
+    enabled,
+    animation,
+    durationTime,
+    delayTime,
+    type,
+} = shakingAddToCartConfig
 
 // If the app is enabled in storefront
-if(shakingAddToCartConfig.enabled) {
+if(enabled) {
     // Get all add to cart buttons on screen and add animated class.
     const addToCartBtns = $('.grid-product__buy-now button');
-    let animateClass = `oe-animate-${shakingAddToCartConfig.animation}`;
-    if (shakingAddToCartConfig.type === 'automatic') {
+    let animateClass = `oe-animate-${animation}`;
+    if (type === 'automatic') {
         animateClass = animateClass.concat('--auto');
     }
-    addToCartBtns.addClass(animateClass);
+    addToCartBtns.addClass(`oe-animated-btn ${animateClass}`);
+
+    // Change animation duration time
+    if (durationTime) {
+        addToCartBtns.css('animation-duration', `${durationTime}s`);
+    }
+
+    // Change animation delay time (automatic type only)
+    if (delayTime) {
+        addToCartBtns.css('animation-delay', `${delayTime}s`);
+    }
 }
 
