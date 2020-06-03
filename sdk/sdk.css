@@ -1,0 +1,20 @@
+/*Vibrate animation */
+.oe-animate-vibrate:hover{
+    animation-name: oe-vibrate;
+    animation-duration: 1s;
+    animation-iteration-count: infinite;
+}
+
+.oe-animate-vibrate--auto {
+    animation-name: oe-vibrate;
+    animation-duration: 1s;
+    animation-iteration-count: infinite;
+}
+
+@keyframes oe-vibrate {
+    0% { transform: translate(0); }
+    20% { transform: translate(-2px,2px); }
+    40% { transform: translate(-2px,-2px) }
+    60% { transform: translate(2px,2px); }
+    80% { transform: translate(2px,-2px); }
+}
