@@ -1,0 +1,52 @@
+.container > .row {
+	width: 100%;
+}
+
+.satc-custom-toggle-btn {
+	display: flex;
+	margin-bottom: 1em;
+}
+
+.satc-custom-toggle-btn span {
+	margin: auto 0;
+	font-weight: 600;
+}
+
+.satc-custom-toggle-btn label {
+	margin-bottom: 0;
+	margin-left: 20px;
+}
+
+.satc-preview-panel {
+	flex: 1;
+	text-align: center;
+	margin-top:  50px;
+}
+.satc-setting-panel {
+	height: 100%;
+	width: 500px;
+	padding: 1em;
+}
+
+.satc-setting-panel .satc-setting--title {
+	margin: 0 0 1em 0;
+}
+.satc-setting-panel .satc-animation-selectbox label {
+	display: block;
+	margin-bottom: 0.5em;
+	font-weight: 600;
+}
+
+.satc-setting-panel .satc-animation-selectbox select {
+	padding: 0.3em 0.5em;
+	border-radius: 5px;
+	width: 50%;
+}
+
+.button-preview {
+	font-size: 1.3em;
+	padding: 0.3em 1em;
+	border: 1px solid #c3c3c3;
+	border-radius: 5px;
+	font-family: inherit;
+}

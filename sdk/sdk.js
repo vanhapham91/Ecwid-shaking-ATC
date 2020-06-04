@@ -6,7 +6,6 @@
 let shakingAddToCartConfig = {
     enabled: true,
     animation: 'shake-lr', // animation list: vibrate, shake-horizontal, shake-vertical, shake-lr
-    durationTime: null, // duration of the animation
     delayTime: null, // for type Automatic only  - between each animation
     type: 'hover' // or hover
 };
@@ -14,7 +13,6 @@ let shakingAddToCartConfig = {
 const {
     enabled,
     animation,
-    durationTime,
     delayTime,
     type,
 } = shakingAddToCartConfig
@@ -28,11 +26,6 @@ if(enabled) {
         animateClass = animateClass.concat('--auto');
     }
     addToCartBtns.addClass(`oe-animated-btn ${animateClass}`);
-
-    // Change animation duration time
-    if (durationTime) {
-        addToCartBtns.css('animation-duration', `${durationTime}s`);
-    }
 
     // Change animation delay time (automatic type only)
     if (delayTime) {
