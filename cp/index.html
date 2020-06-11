@@ -77,7 +77,7 @@
 			width: 50%;
 		}
 
-		.satc-button-preview {
+		.satc-preview-panel > button {
 			font-size: 1.3em;
 			padding: 0.3em 1em;
 			border: 1px solid #c3c3c3;
@@ -125,6 +125,12 @@
 			-moz-user-select: none;
 			-ms-user-select: none;
 			user-select: none;
+		}
+		.satc-toggle-button.app-enable-toggle label.tgl-btn {
+			width: 10em;
+		}
+		.satc-toggle-button.app-enable-toggle {
+			margin: auto;
 		}
 		.tgl + .tgl-btn:after, .tgl + .tgl-btn:before {
 			position: relative;
@@ -247,6 +253,72 @@
 			transform: rotateY(20deg);
 		}
 
+		.satc-animated-btn {
+			animation-duration: 2s;
+			animation-iteration-count: infinite;
+		}
+
+		/* Vibrate animation */
+		.satc-animate-vibrate--auto, .satc-animate-vibrate:hover{
+			animation-name: satc-vibrate;
+		}
+
+		@keyframes satc-vibrate {
+			0%, 100% { transform: translate(0); }
+			20% { transform: translate(-2px,2px); }
+			40% { transform: translate(-2px,-2px) }
+			60% { transform: translate(2px,2px); }
+			80% { transform: translate(2px,-2px); }
+		}
+
+		/*@keyframes satc-vibrate2 {*/
+		/*    0%, 100% { transform: translate(0); }*/
+		/*    20% { transform: translate(2px,-2px); }*/
+		/*    40% { transform: translate(2px,2px) }*/
+		/*    60% { transform: translate(-2px,2px); }*/
+		/*    80% { transform: translate(-2px,-2px); }*/
+		/*}*/
+
+		/* Shake animation horizontal */
+		.satc-animate-shake-horizontal--auto, .satc-animate-shake-horizontal:hover{
+			animation-name: satc-shake-horizontal;
+		}
+
+		@keyframes satc-shake-horizontal {
+			0%, 100% { transform: translateX(0); }
+			10%, 30%, 50%, 70% { transform: translateX(-10px); }
+			20%, 40%, 60% { transform: translateX(10px); }
+			80% { transform: translateX(8px); }
+			90% { transform: translateX(-8px); }
+		}
+
+		/* Shake animation vertical */
+		.satc-animate-shake-vertical--auto, .satc-animate-shake-vertical:hover{
+			animation-name: satc-shake-vertical;
+		}
+
+		@keyframes satc-shake-vertical {
+			0%, 100% { transform: translateX(0); }
+			10%, 30%, 50%, 70% { transform: translateY(-8px); }
+			20%, 40%, 60% { transform: translateY(8px); }
+			80% { transform: translateY(6.4px); }
+			90% { transform: translateY(-6.4px); }
+		}
+
+		/* Shake animation left right */
+		.satc-animate-shake-lr--auto, .satc-animate-shake-lr:hover{
+			animation-name: satc-shake-left-right;
+		}
+
+		@keyframes satc-shake-left-right {
+			0%, 100% { transform: rotate(0deg); transform-origin: 50% 50%; }
+			10%, 90% { transform: rotate(8deg); }
+			20%, 40%, 60% { transform: rotate(-10deg); }
+			30%, 50%, 70% { transform: rotate(10deg); }
+			80% { transform: rotate(-8deg); }
+		}
+
+
 
 	</style>
 </head>
@@ -254,12 +326,11 @@
 <!-- select success state -->
 <div class="row" id="satc-app">
 	<div class="satc-setting-panel">
-		<h4 class="satc-setting--title">Shaking Add To Cart Setting</h4>
+		<h4 class="satc-setting--title">Shaking Add To Cart</h4>
 		<div class="satc-custom-toggle-btn tg-list-item">
-			<span>Enable app </span>
-			<div class="satc-toggle-button">
+			<div class="satc-toggle-button app-enable-toggle">
 				<input id="activate-app" class="tgl tgl-skewed" type="checkbox">
-				<label class="tgl-btn" data-tg-off="DISABLE" data-tg-on="ENABLE" for="activate-app"></label>
+				<label class="tgl-btn" data-tg-off="APP DISABLED" data-tg-on="APP ENABLED" for="activate-app"></label>
 			</div>
 		</div>
 		<h6>Animation config</h6>
@@ -302,7 +373,7 @@
 		</div>
 	</div>
 	<div class="satc-preview-panel">
-		<button class="satc-button-preview">Buy now</button>
+		<button id="SATC-PREVIEW" class="satc-button-preview satc-animated-btn">Buy now</button>
 	</div>
 </div>
 
@@ -331,31 +402,67 @@
 		let savedSetting = null;
 
 		EcwidApp.getAppStorage(function(data) {
+			console.log(data);
 			savedSetting = data.reduce((obj, currentObj) => {
 				obj[currentObj.key] = currentObj.value;
 				return obj;
 			}, {});
+			if (savedSetting.isEnabled === 'true') {
+				isAppActivated.prop( "checked", true );
+			}
 
-			isAppActivated.val(savedSetting.isEnabled);
+			if (savedSetting.triggerType === 'true') {
+				triggerType.prop( "checked", true );
+			}
+
 			animationName.val(savedSetting.animation);
+
 			delayTime.val(savedSetting.delayTime);
-			triggerType.val(savedSetting.triggerType);
+			if (savedSetting.delayTime > 0) {
+				delayTime.parent().addClass('field--filled');
+			}
+			delayTime.addClass('field--filled');
+
+			applyAnimation();
+		});
+
+		animationName.change(function() {
+			applyAnimation();
+		});
+
+		triggerType.change(function() {
+			applyAnimation();
 		});
 
 
 		$('#save').on('click', function() {
 			const data = {
-				isEnabled: isAppActivated.val(),
+				isEnabled: isAppActivated.is( ":checked" ) ? 'true' : 'false',
 				animation: animationName.val(),
 				delayTime: delayTime.val(),
-				triggerType: triggerType.val(),
+				triggerType: triggerType.is( ":checked" ) ? 'true' : 'false',
 			};
 			EcwidApp.setAppStorage(data, function() {
-				console.log(isAppActivated.val(savedSetting.isEnabled));
-				console.log(triggerType.val());
-				console.log('Data saved!');
+				console.log(data);
 			});
-		})
+		});
+
+		function changeAnimation(animationClass) {
+			const previewBtn = $('#SATC-PREVIEW');
+			var animateClass = previewBtn.attr('class').split(' ')[2];
+			previewBtn.removeClass( animateClass );
+			previewBtn.addClass(animationClass);
+		}
+
+		function applyAnimation() {
+			let animationClass = '';
+			if (triggerType.is( ":checked" )) {
+				animationClass = 'satc-animate-' + animationName.val();
+			} else {
+				animationClass = 'satc-animate-' + animationName.val() + '--auto';
+			}
+			changeAnimation(animationClass);
+		}
 	});
 </script>
 
