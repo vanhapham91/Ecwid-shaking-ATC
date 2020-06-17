@@ -190,6 +190,10 @@
 			display: block !important;
 		}
 
+		.animation-deactivated {
+			animation: none !important;
+		}
+
 	</style>
 </head>
 <body>
@@ -295,8 +299,8 @@
 		const triggerAuto = $('#auto-trigger');
 		const previewBtn = $('#SATC-PREVIEW');
 
-		let savedSetting = null;
 		EcwidApp.getAppStorage('public', function(data) {
+			let savedSetting = null;
 
 			if (data === null) {
 				savedSetting = {
@@ -304,22 +308,20 @@
 					triggerType: 'auto',
 					animation: 'vibrate',
 					delayTime: 1,
-					animationDuration: 1,
+					animationDuration: 2,
 				}
+			} else {
+				savedSetting = JSON.parse(data);
 			}
 
-			// savedSetting = data.reduce((obj, currentObj) => {
-			// 	obj[currentObj.key] = currentObj.value;
-			// 	return obj;
-			// }, {});
 			if (savedSetting.isEnabled === 'true') {
 				isAppActivated.prop( "checked", true );
+				applyAnimation();
+			} else {
+				previewBtn.addClass('animation-deactivated');
 			}
 
-			changeTriggerType(savedSetting.triggerType);
-
 			animationName.val(savedSetting.animation);
-
 			delayTime.val(savedSetting.delayTime);
 			if (savedSetting.delayTime > 0) {
 				delayTime.parent().addClass('field--filled');
@@ -332,32 +334,20 @@
 			}
 			animationDuration.addClass('field--filled');
 
+			appToggle();
 			applyAnimation();
 			animationDurationChange();
 		});
 
-		isAppActivated.change(function() {
-			if (isAppActivated.is( ":checked" )) {
-				previewBtn.removeClass('satc-animation-deactivated');
-			} else {
-				previewBtn.addClass('animation-deactivated');
-			}
-		});
+		triggerHover.change(applyAnimation);
+		triggerAuto.change(applyAnimation);
+
+		isAppActivated.change(appToggle);
 		animationName.change(applyAnimation);
 		animationDuration.keyup(animationDurationChange);
 
 
 		$('#save').on('click', saveSetting);
-
-		function changeTriggerType(trigger) {
-			if (trigger === 'hover') {
-				triggerHover.prop( "checked", true );
-			} else {
-				triggerAuto.prop( "checked", true );
-			}
-
-			applyAnimation();
-		}
 
 		function changeAnimation(newAnimationClass) {
 			const oldAnimateClass = previewBtn.attr('class').split(' ')[2];
@@ -391,8 +381,16 @@
 
 			EcwidApp.setAppPublicConfig(data, function() {
 				console.log('Set app public config success');
-				console.log(data);
 			});
+		}
+
+		function appToggle() {
+			if (isAppActivated.is( ":checked" )) {
+				applyAnimation();
+				previewBtn.removeClass('satc-animation-deactivated');
+			} else {
+				previewBtn.addClass('satc-animation-deactivated');
+			}
 		}
 
 	});
