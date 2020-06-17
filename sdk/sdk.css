@@ -1,14 +1,15 @@
-.oe-animated-btn {
-    animation-duration: 1s;
+.satc-animated-btn {
+    animation-duration: 2s;
     animation-iteration-count: infinite;
 }
 
 /* Vibrate animation */
-.oe-animate-vibrate--auto, .oe-animate-vibrate:hover{
-    animation-name: oe-vibrate;
+.satc-animate-vibrate--auto, .satc-animate-vibrate:hover{
+    animation-name: satc-vibrate;
+    animation-duration: 1s;
 }
 
-@keyframes oe-vibrate {
+@keyframes satc-vibrate {
     0%, 100% { transform: translate(0); }
     20% { transform: translate(-2px,2px); }
     40% { transform: translate(-2px,-2px) }
@@ -16,7 +17,7 @@
     80% { transform: translate(2px,-2px); }
 }
 
-/*@keyframes oe-vibrate2 {*/
+/*@keyframes satc-vibrate2 {*/
 /*    0%, 100% { transform: translate(0); }*/
 /*    20% { transform: translate(2px,-2px); }*/
 /*    40% { transform: translate(2px,2px) }*/
@@ -25,11 +26,11 @@
 /*}*/
 
 /* Shake animation horizontal */
-.oe-animate-shake-horizontal--auto, .oe-animate-shake-horizontal:hover{
-    animation-name: oe-shake-horizontal;
+.satc-animate-shake-horizontal--auto, .satc-animate-shake-horizontal:hover{
+    animation-name: satc-shake-horizontal;
 }
 
-@keyframes oe-shake-horizontal {
+@keyframes satc-shake-horizontal {
     0%, 100% { transform: translateX(0); }
     10%, 30%, 50%, 70% { transform: translateX(-10px); }
     20%, 40%, 60% { transform: translateX(10px); }
@@ -38,11 +39,11 @@
 }
 
 /* Shake animation vertical */
-.oe-animate-shake-vertical--auto, .oe-animate-shake-vertical:hover{
-    animation-name: oe-shake-vertical;
+.satc-animate-shake-vertical--auto, .satc-animate-shake-vertical:hover{
+    animation-name: satc-shake-vertical;
 }
 
-@keyframes oe-shake-vertical {
+@keyframes satc-shake-vertical {
     0%, 100% { transform: translateX(0); }
     10%, 30%, 50%, 70% { transform: translateY(-8px); }
     20%, 40%, 60% { transform: translateY(8px); }
@@ -51,11 +52,11 @@
 }
 
 /* Shake animation left right */
-.oe-animate-shake-lr--auto, .oe-animate-shake-lr:hover{
-    animation-name: oe-shake-left-right;
+.satc-animate-shake-lr--auto, .satc-animate-shake-lr:hover{
+    animation-name: satc-shake-left-right;
 }
 
-@keyframes oe-shake-left-right {
+@keyframes satc-shake-left-right {
     0%, 100% { transform: rotate(0deg); transform-origin: 50% 50%; }
     10%, 90% { transform: rotate(8deg); }
     20%, 40%, 60% { transform: rotate(-10deg); }
